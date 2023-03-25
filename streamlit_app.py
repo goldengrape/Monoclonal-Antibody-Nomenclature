@@ -4,6 +4,8 @@ from query import main as query_poca
 import asyncio
 import openai 
 import os 
+import platform
+
 
 st.title("Ideas for Monoclonal Antibody Nomenclature")
 st.info("This app is powered by [OpenAI](https://openai.com/) and [POCA](https://poca.ai/).")
@@ -128,8 +130,11 @@ if generate_button:
         
         st.write("## POCA Query")
         with st.spinner("Querying POCA..."):
-            loop = asyncio.ProactorEventLoop()
-            asyncio.set_event_loop(loop)
+            if platform.system() == 'Windows':
+                loop = asyncio.ProactorEventLoop()
+                asyncio.set_event_loop(loop)
+            else:
+                loop = asyncio.get_event_loop()
             df=loop.run_until_complete(query_poca(name_list,item_sep="\t\t"))
             for key, value in df.items():
                 st.markdown(f"* {key}")
