@@ -4,6 +4,7 @@ from playwright.async_api import Page
 import sys
 
 
+
 async def init(playwright) -> None:
     browser = await playwright.chromium.launch(headless=False)
     context = await browser.new_context()
