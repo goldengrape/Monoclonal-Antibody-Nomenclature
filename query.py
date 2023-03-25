@@ -2,8 +2,9 @@ import asyncio
 from playwright.async_api import async_playwright, expect
 from playwright.async_api import Page
 import sys
+import os 
 
-
+os.system("playwright install")
 
 async def init(playwright) -> None:
     browser = await playwright.chromium.launch(headless=False)
