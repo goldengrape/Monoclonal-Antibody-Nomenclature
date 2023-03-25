@@ -5,7 +5,9 @@ import asyncio
 import openai 
 import os 
 import platform
-import nest_asyncio
+# import nest_asyncio
+import subprocess
+import sys 
 
 # nest_asyncio.apply()
 
@@ -146,14 +148,20 @@ if generate_button:
         
         st.write("## POCA Query")
         with st.spinner("Querying POCA..."):
-            if platform.system() == 'Windows':
-                loop = asyncio.ProactorEventLoop()
-                asyncio.set_event_loop(loop)
-            else:
-                loop = asyncio.get_event_loop()
-            df=loop.run_until_complete(query_poca(name_list,item_sep="\t\t"))
-            for key, value in df.items():
-                st.markdown(f"* {key}")
-                st.markdown(f"> {value}")
+            # if platform.system() == 'Windows':
+            #     loop = asyncio.ProactorEventLoop()
+            #     asyncio.set_event_loop(loop)
+            # else:
+            #     loop = asyncio.get_event_loop()
+            # df=loop.run_until_complete(query_poca(name_list,item_sep="\t\t"))
+            # for key, value in df.items():
+            #     st.markdown(f"* {key}")
+            #     st.markdown(f"> {value}")
+            
+            # 运行python query.py name_list，并获得结果
+            output = subprocess.run([sys.executable, "query.py"] + name_list, stdout=subprocess.PIPE)
+            st.markdown(f"> {output.stdout.decode('utf-8')}")
+            print(output)
+
     
 

@@ -56,7 +56,8 @@ async def main(query_list, item_sep=";", col_sep=","):
 
 if __name__ == "__main__":
     # query_list = ["vet", 'jup', 'innov']
-    query_list = sys.argv[1:].split(",")
+    input = sys.argv[1:]
+    query_list=input
     df = asyncio.run(main(query_list))
-    print("Done")
+    # print("Done")
     print(df)
