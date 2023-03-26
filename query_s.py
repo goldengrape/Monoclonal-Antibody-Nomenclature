@@ -1,13 +1,27 @@
-from selenium import webdriver
+import streamlit as st
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 import sys
 import os
 
+# @st.experimental_singleton
+# def get_driver():
+#     return webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+
+# @st.experimental_singleton
 def init() -> webdriver.Chrome:
-    driver = webdriver.Chrome()
-    return driver
+    options = Options()
+    options.add_argument('--disable-gpu')
+    options.add_argument('--headless')
+    return webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+
+    # driver = webdriver.Chrome()
+    # return driver
 
 def first_query(driver: webdriver.Chrome, query_string: str) -> None:
     driver.get("https://poca-public.fda.gov/")
