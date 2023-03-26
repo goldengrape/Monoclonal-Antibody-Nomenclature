@@ -1,5 +1,6 @@
 streamlit
 openai
-playwright
+# playwright
 asyncio
+selenium
 # nest_asyncio

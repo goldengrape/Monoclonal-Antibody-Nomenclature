@@ -1,6 +1,6 @@
 import streamlit as st
 from generate_name import generate_name,check_in_languages
-from query import main as query_poca
+from query_s import main as query_poca
 import asyncio
 import openai 
 import os 
@@ -158,10 +158,13 @@ if generate_button:
             #     st.markdown(f"* {key}")
             #     st.markdown(f"> {value}")
             
-            # 运行python query.py name_list，并获得结果
-            output = subprocess.run([sys.executable, "query.py"] + name_list, stdout=subprocess.PIPE)
-            st.markdown(f"> {output.stdout.decode('utf-8')}")
-            print(output)
+            # # 运行python query.py name_list，并获得结果
+            # output = subprocess.run([sys.executable, "query.py"] + name_list, stdout=subprocess.PIPE)
+            # st.markdown(f"> {output.stdout.decode('utf-8')}")
+            # print(output)
+
+            df=query_poca(name_list,item_sep="\t\t")
+            st.markdown(df)
 
     
 
