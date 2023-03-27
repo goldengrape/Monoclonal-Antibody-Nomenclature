@@ -37,7 +37,7 @@ def generate_name(num,name_part,requirement):
     {requirement}
     The result should be in python list format.
     \["name1", "name2", "name3", ...\]
-    Before you give me the answer, please be sure the name ends with {name_part}.
+    Before you give me the answer, please verify each name ends with {name_part}.
     '''
     answer=query_gpt3(prompt)
     # 提取结果
@@ -55,12 +55,14 @@ def check_in_languages(lang_list,name, n=3,target_lang="English"):
         prompt=f'''
     Please find the word with the closest pronunciation or spelling to word part "{name.lower()}" in {lang}, 
     and translate the word into {target_lang}.
-    It is possible that the word does not exist in {lang}.
-    You still need to find out results.
+    "{name.lower()}" is a part of a name, which may does not exist in {lang}.
+    You only need to find something similar, it doesn't have to be an exact match.
     please return the top {n} results.
     The explaination should be as short as possible.
     Please return the results in python list format, 
-    \["result1(translate1)","result2(translate2)"...]
+    ["result1(translate1)","result2(translate2)"...]
+    
+    Before you give me the answer, please verify the return format.
     '''
         answer=query_gpt3(prompt)
         # 提取结果
