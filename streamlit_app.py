@@ -8,6 +8,7 @@ import platform
 # import nest_asyncio
 import subprocess
 import sys 
+import re
 
 # nest_asyncio.apply()
 
@@ -131,7 +132,7 @@ if generate_button:
         st.markdown("\n* "+"\n* ".join(name_list))
 
     name_prefix=[name.split(infix)[0] for name in name_list]
-    print(name_prefix)
+    # print(name_prefix)
 
     if len(name_prefix)>1:
         st.markdown("## Check prefix in Languages")
@@ -141,43 +142,44 @@ if generate_button:
                 st.markdown(f"#### {name}-")
                 for key,value in check_list.items():
                     st.markdown(f"* {key}:")
-                    for v in value:
-                        st.markdown(f"> {v}")
-                # st.dataframe(check_list)
-                print(check_list)
+                    # st.markdown(value)
+                    try:
+                        v=value[0]
+                        v=(v.replace('"','')
+                           .replace(']','')
+                           .replace('[','')
+                           .replace("'",'')
+                           )
+                        for i in v.split(","):
+                            st.markdown(f"> {i}")
+                        # st.write(v)
+                    except:
+                        pass
+                    # # ['["Zenga (surname)", "Zeno (name)", "Zinco (zinc)"]']
+                    # # or '["Zenga" (surname), "Zeno" (name), "Zinco" (zinc)]'
+                    # # use regex to extract the words
+                    # # find the Zenga, and (surname)
+
+                    # try:
+                    #     check_name=re.findall(r'\"(.*?)\"',value[0])
+                    #     check_name=[n.split(" (")[0] for n in check_name]
+                    #     translated_name=re.findall(r'\((.*?)\)',value[0])
+                    # except:
+                    #     pass 
+
+                    # for n,t in zip(check_name,translated_name):
+                    #     st.markdown(f"> {n}( {t} )")
+                    
+                # print(check_list)
         
         st.write("## POCA Query")
         with st.spinner("Querying POCA..."):
-            # if platform.system() == 'Windows':
-            #     loop = asyncio.ProactorEventLoop()
-            #     asyncio.set_event_loop(loop)
-            # else:
-            #     loop = asyncio.get_event_loop()
-            # df=loop.run_until_complete(query_poca(name_list,item_sep="\t\t"))
-            # for key, value in df.items():
-            #     st.markdown(f"* {key}")
-            #     st.markdown(f"> {value}")
-            
-            # # 运行python query.py name_list，并获得结果
-            # output = subprocess.run([sys.executable, "query.py"] + name_list, stdout=subprocess.PIPE)
-            # st.markdown(f"> {output.stdout.decode('utf-8')}")
-            # print(output)
 
             df=query_poca(name_list,item_sep="\t\t")
-            print(df)
-            print(type(df))
-            for d in df:
-                print(d)
-                st.markdown(d)
-                # for key, value in d.items():
-                #     st.markdown(f"* {key}")
-                #     st.markdown(f"> {value}")
-
-            # 写一段程序，将df字符串转换成streamlit的输出，
-            # 该字符串的形式是一个字典的列表，[{"a":1,"b":2},{"a":3,"b":4}}]
-            # 也就是列表中有多个字典。
-            # 请使用streamlit输出这个字典列表。
+            for key, value in df.items():
+                st.markdown(f"* {key}")
+                for v in value:
+                    st.markdown(f"> {v['name'].lower()}  {v['score']} ")
 
 
     
-
