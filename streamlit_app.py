@@ -164,10 +164,14 @@ if generate_button:
             # print(output)
 
             df=query_poca(name_list,item_sep="\t\t")
+            print(df)
+            print(type(df))
             for d in df:
-                for key, value in d.items():
-                    st.markdown(f"* {key}")
-                    st.markdown(f"> {value}")
+                print(d)
+                st.markdown(d)
+                # for key, value in d.items():
+                #     st.markdown(f"* {key}")
+                #     st.markdown(f"> {value}")
 
             # 写一段程序，将df字符串转换成streamlit的输出，
             # 该字符串的形式是一个字典的列表，[{"a":1,"b":2},{"a":3,"b":4}}]
